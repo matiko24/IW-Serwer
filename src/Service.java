@@ -17,6 +17,8 @@ import org.hibernate.Session;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import db.Shop;
+
 @Path("/map")
 public class Service {
 
@@ -27,15 +29,16 @@ public class Service {
 			throws JSONException {
 
 		List<String> ids = Arrays.asList(products.split(";"));
+
+		new Thread(){public void run(){
+			MapGenerator generator = new MapGenerator();
+			generator.generateMap(shopId, ids);
+		}
+		}.start();
+		
 		JSONObject jsonObject = new JSONObject();
-
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-
-		Shop shop = (Shop) session.get(Shop.class, 1);
-
-		jsonObject.put("ShopId", shop.getId());
-		jsonObject.put("Result", shop.getShopname());
+		//jsonObject.put("ShopId", shop.getId());
+		//jsonObject.put("Result", shop.getShop_name());
 
 		return Response.status(200).entity("a" + jsonObject).build();
 	}

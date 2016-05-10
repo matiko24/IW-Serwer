@@ -14,7 +14,9 @@
 		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
 		<property name="hibernate.current_session_context_class">thread</property>
 
-		<mapping class="Shop" />
+		<mapping class="db.Shop" />
+		<mapping class="db.Product" />
+		<mapping class="db.Location" />
 
 	</session-factory>
 </hibernate-configuration>
