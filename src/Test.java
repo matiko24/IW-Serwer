@@ -16,10 +16,14 @@ public class Test {
 		MapGenerator g = new MapGenerator();
 
 		List<String> s = new ArrayList<String>();
-		s.add("115");
+		s.add("76");
+		s.add("75");
+		s.add("55");
 		s.add("95");
+		s.add("115");
 		s.add("35");
-		s.add("11");
+		s.add("73");
+		
 	
 
 		g.generateMap(String.valueOf(shop1.getId()), s);

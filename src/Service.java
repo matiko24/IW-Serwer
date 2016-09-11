@@ -29,17 +29,13 @@ public class Service {
 			throws JSONException {
 
 		List<String> ids = Arrays.asList(products.split(";"));
-
-		new Thread(){public void run(){
-			MapGenerator generator = new MapGenerator();
-			generator.generateMap(shopId, ids);
-		}
-		}.start();
-		
 		JSONObject jsonObject = new JSONObject();
-		//jsonObject.put("ShopId", shop.getId());
-		//jsonObject.put("Result", shop.getShop_name());
+		String path;
 
+		MapGenerator generator = new MapGenerator();
+		path = generator.generateMap(shopId, ids);
+
+		jsonObject.put("Result", path);
 		return Response.status(200).entity("a" + jsonObject).build();
 	}
 }
