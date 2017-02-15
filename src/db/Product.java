@@ -12,47 +12,76 @@ public class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "productId")
 	private int id;
 
-	@Column(name = "product_name")
-	private String product_name;
+	@Column(name = "shopId")
+	private int shopId;
+	
+	@Column(name = "placeId")
+	private int placeId;
 
-	@Column(name = "producer")
-	private String producer;
+	@Column(name = "name")
+	private String name;
+
+//	@Column(name = "latitude")
+//	private Double latitude;
+//	
+//	@Column(name = "longitude")
+//	private Double longitude;
 
 	public Product() {
 		super();
-		this.product_name = "";
+		this.name = "";
+		this.shopId = 0;
+		this.placeId = 0;
 	}
 
-	public Product(String product_name) {
+	public Product(Integer shopId, Integer placeId, String product_name) {
 		super();
-		this.product_name = product_name;
+		this.name = product_name;
+		this.shopId = shopId;
+		this.placeId = placeId;
 	}
 
 	public int getId() {
 		return id;
 	}
-
-	public void setId(int id) {
-		this.id = id;
+	
+	public int getShopId() {
+		return shopId;
+	}
+	
+	public void setShopId(Integer shopId) {
+		this.shopId = shopId;
+	}
+	
+	public int getPlaceId() {
+		return placeId;
+	}
+	
+	public void setPlaceId(Integer placeId) {
+		this.placeId = placeId;
 	}
 
 	public String getProduct_name() {
-		return product_name;
+		return name;
 	}
 
-	public void setProduct_name(String product_name) {
-		this.product_name = product_name;
-	}
-
-	public String getProducer() {
-		return producer;
-	}
-
-	public void setProducer(String producer) {
-		this.producer = producer;
-	}
+//	public Double getLatitude() {
+//		return latitude;
+//	}
+//	
+//	public void setLatitude(Double latitude) {
+//		this.latitude = latitude;
+//	}
+//
+//	public Double getLongitude() {
+//		return longitude;
+//	}
+//	
+//	public void setLongitude(Double longitude) {
+//		this.longitude = longitude;
+//	}
 
 }
