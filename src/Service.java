@@ -1,9 +1,4 @@
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,11 +8,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
+import db.Shop;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import db.Shop;
 
 @Path("/map")
 public class Service {
@@ -37,5 +32,26 @@ public class Service {
 
 		jsonObject.put("Result", path);
 		return Response.status(200).entity("a" + jsonObject).build();
+	}
+
+	@Path("shortestPath")
+	@GET
+	@Produces("application/json")
+	public Response getShortestPath(@QueryParam("shop") String shopId, @QueryParam("productList") List<String> productList)
+		throws JSONException {
+		return Response.status(200).build();
+	}
+	@Path("getShops")
+	@GET
+	@Produces("application/json")
+	public Response getShops() throws JSONException{
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+
+		List<Shop> shops = session.createQuery("from Shop").list();
+
+		session.close();
+
+		return Response.status(200).entity(new JSONObject(shops)).build();
 	}
 }

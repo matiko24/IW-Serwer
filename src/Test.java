@@ -1,9 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Session;
-
 import db.Shop;
+import org.hibernate.Session;
 
 public class Test {
 

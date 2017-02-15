@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import db.Shop;
 import org.hibernate.Session;
 
 import db.Location;
-import db.Shop;
 
 public class MapGenerator {
 
@@ -27,7 +27,7 @@ public class MapGenerator {
 	private void navigate() {
 
 		int nr = productsLocation.length - 1;
-		Position actualPosition = new Position(8, shop.getStart_y());
+		Position actualPosition = new Position(8, shop.getId());
 		Location nextProductLocation = productsLocation[nr];
 		int nextProductCoordinateY = nextProductLocation.getY();
 
@@ -227,11 +227,11 @@ public class MapGenerator {
 	private void findY(Position actualPosition, int nr) {
 
 		int nextCoordinateY = 3 * ((int) ((productsLocation[nr].getY() + 1) / 3));
-		int amountOfWays = (actualPosition.getY() - nextCoordinateY) / 3;
+		int amountOfWays = Math.abs((actualPosition.getY() - nextCoordinateY) / 3);
 
 		System.out.println(
 				actualPosition.getY() + " " + productsLocation[nr].getY() + " " + nextCoordinateY + " " + amountOfWays);
-		if (productsLocation[nr].getX() > actualPosition.getX()) {
+		if (productsLocation[nr].getX() > actualPosition.getX() || path.substring(0, 1).equals("P")) {
 			path += amountOfWays + "WL;";
 		} else
 			path += amountOfWays + "WP;";
