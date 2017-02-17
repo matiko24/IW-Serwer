@@ -174,9 +174,18 @@ public class Service {
 		// Temporary solution for testing
 		int itemCount = 0;
 		List<Place> places = session.createQuery("from Place where shopId=" + shopId).list();
+//		for (int i = 0; i < places.size(); i++) {
+//			if (places.get(i).getRowNumber() % 4 != 0) {
+//				Product newProduct = new Product(shopId, places.get(i).getId(), "Product_" + places.get(i).getRowNumber()
+//						+ "_" + places.get(i).getColumnNumber());
+//				session.save(newProduct);
+//				itemCount++;
+//				if (itemCount >= 200) break;
+//			}
+//		}
 		for (int i = 0; i < places.size(); i++) {
 			if (places.get(i).getRowNumber() % 4 != 0) {
-				Product newProduct = new Product(shopId, places.get(i).getId(), "Product_" + itemCount);
+				Product newProduct = new Product(shopId, places.get(i).getId(), "Product_" + (itemCount + 1));
 				session.save(newProduct);
 				itemCount++;
 				if (itemCount >= 200) break;
@@ -192,6 +201,13 @@ public class Service {
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
+		
+		List<Shop> shops = session.createQuery("from Shop").list();
+		for (int i = 0; i < shops.size(); i++) {
+			if (shops.get(i) == null)
+				continue;
+			ProductsInShop.getInstance().addToShop(shops.get(i).getId(), shops.get(i));
+		}
 
 		List<Place> places = session.createQuery("from Place where shopId = " + shopId).list();
 		List<Product> products = session.createQuery("from Product where shopId = " + shopId).list();
@@ -224,8 +240,7 @@ public class Service {
 		generateGraph(shopId);
 
 		Place sourcePlace = new Place(0, 0);
-		sourcePlace = ProductsInShop.getInstance().getPlaces().get(shopId)
-				.get(ProductsInShop.getInstance().getPlaces().get(shopId).indexOf(sourcePlace));
+		sourcePlace = places.get(places.indexOf(sourcePlace));
 		requiredPlacesList.add(0, sourcePlace);
 
 		DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(shopId);

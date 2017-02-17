@@ -117,15 +117,17 @@ public class DijkstraAlgorithm {
 
 
     public int[][] getIntegerDistanceMatrix(int matrixSize, List<Distance> productDistanceList) {
-        List<Distance> distances = new ArrayList<>();
+        List<Distance> distancesForward = new ArrayList<>();
+        List<Distance> distancesBack = new ArrayList<>();
+        IdSubstitution.getInstance().reset();
         for (int i = 0; i < productDistanceList.size(); i++) {
-            distances.add(new Distance(productDistanceList.get(i).getSource(), productDistanceList.get(i).getDestination(),
+        	distancesForward.add(new Distance(productDistanceList.get(i).getSource(), productDistanceList.get(i).getDestination(),
                     productDistanceList.get(i).getDistance()));
-            distances.add(new Distance(productDistanceList.get(i).getDestination(), productDistanceList.get(i).getSource(),
+        	distancesBack.add(new Distance(productDistanceList.get(i).getDestination(), productDistanceList.get(i).getSource(),
                     productDistanceList.get(i).getDistance()));
         }
 
-        int[][] distanceMatrix = new int[matrixSize][matrixSize];
+        int[][] distanceMatrix = new int[productDistanceList.size()][productDistanceList.size()];
 //        Distance[][] predecessorMatrix = new Distance[matrixSize][matrixSize];
         for (int i = 0; i < distanceMatrix.length; i++) {
             for (int j = 0; j < distanceMatrix[i].length; j++) {
@@ -133,24 +135,14 @@ public class DijkstraAlgorithm {
 //                predecessorMatrix[i][j] = null;
             }
         }
-        for (Distance distance : distances) {
-            distanceMatrix[IdSubstitution.getInstance().getIdSubstitute(distance.getSource().getId(), IdSubstitution.NORMAL_TYPE)]
-                    [IdSubstitution.getInstance().getIdSubstitute(distance.getDestination().getId(), IdSubstitution.NORMAL_TYPE)] = distance.getDistance();
-//            predecessorMatrix[IdSubstitution.getInstance().getIdSubstitute(distance.getSource().getId(), IdSubstitution.NORMAL_TYPE)]
-//                    [IdSubstitution.getInstance().getIdSubstitute(distance.getDestination().getId(), IdSubstitution.NORMAL_TYPE)] = distance;
+        
+        for (int i = 0; i < distanceMatrix.length; i++) {
+            distanceMatrix[IdSubstitution.getInstance().getIdSubstitute(distancesForward.get(i).getSource().getId(), IdSubstitution.NORMAL_TYPE)]
+                    [IdSubstitution.getInstance().getIdSubstitute(distancesForward.get(i).getDestination().getId(), IdSubstitution.NORMAL_TYPE)] = distancesForward.get(i).getDistance();
+            distanceMatrix[IdSubstitution.getInstance().getIdSubstitute(distancesBack.get(i).getSource().getId(), IdSubstitution.NORMAL_TYPE)]
+                    [IdSubstitution.getInstance().getIdSubstitute(distancesBack.get(i).getDestination().getId(), IdSubstitution.NORMAL_TYPE)] = distancesBack.get(i).getDistance();
+            
         }
-
-//        for (int k = 0; k < distanceMatrix.length; k++) {
-//            for (int i = 0; i < distanceMatrix.length; i++) {
-//                for (int j = 0; j < distanceMatrix.length; j++) {
-//                    if (distanceMatrix[i][j] > distanceMatrix[i][k] + distanceMatrix[k][j]) {
-//                        if (distanceMatrix[i][k] + distanceMatrix[k][j] < 0) continue;
-//                        distanceMatrix[i][j] = distanceMatrix[i][k] + distanceMatrix[k][j];
-//                        predecessorMatrix[i][j] = predecessorMatrix[k][j];
-//                    }
-//                }
-//            }
-//        }
 
         for (int i = 0; i < distanceMatrix.length; i++) {
             for (int j = 0; j < distanceMatrix[i].length; j++) {

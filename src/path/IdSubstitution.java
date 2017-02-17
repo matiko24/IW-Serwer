@@ -49,4 +49,9 @@ public class IdSubstitution {
     public Map<Integer, Integer> getRevertIndexSubstituteMap() {
         return mRevertIndexSubstituteMap;
     }
+    
+    public void reset() {
+        mIndexSubstituteMap = new HashMap<>();
+        mRevertIndexSubstituteMap = new HashMap<>();
+    }
 }
